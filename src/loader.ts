@@ -5,6 +5,38 @@ import { BaseContext } from 'koa';
 export class Loader {
   router: Router = new Router;
   controller: any = {};
+  app: any;
+
+  constructor(app: any) {
+    this.app = app;
+    this.loadService();
+  }
+
+  loadService() {
+    const service = fs.readdirSync(__dirname + '/service');
+
+    Object.defineProperty(this.app.context, 'service', {
+      get() {
+        if (!(<any>this)['cache']) {
+          (<any>this)['cache'] = {};
+        }
+        const loaded = (<any>this)['cache'];
+
+        // If some services failed to be loaded ? 
+        if (!loaded['service']) {
+          loaded['service'] = {};
+          service.forEach((d) => {
+            const name = d.split('.')[0];
+            const mod = require(__dirname + '/service/' + d);
+            console.log("mod :", mod);
+            loaded['service'][name] = new mod(this);
+          });
+          return loaded.service;
+        }
+        return loaded.service;
+      }
+    });
+  }
 
   loadController(){
     const dirs = fs.readdirSync(__dirname + '/controller');

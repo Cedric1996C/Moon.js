@@ -12,7 +12,7 @@ const app = new Koa;
 
 // route.get('/user', user);
 
-const loader = new Loader;
+const loader = new Loader(app);
 
 app.use(loader.loadRouter());
 
