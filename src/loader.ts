@@ -9,12 +9,18 @@ export class Loader {
 
   constructor(app: any) {
     this.app = app;
+  }
+
+  loadFlow(){
+    this.loadConfig();
     this.loadService();
+    this.loadController();
+    return this.loadRouter();
   }
 
   loadService() {
     const service = fs.readdirSync(__dirname + '/service');
-
+    var that = this;
     Object.defineProperty(this.app.context, 'service', {
       get() {
         if (!(<any>this)['cache']) {
@@ -29,7 +35,7 @@ export class Loader {
             const name = d.split('.')[0];
             const mod = require(__dirname + '/service/' + d);
             console.log("mod :", mod);
-            loaded['service'][name] = new mod(this);
+            loaded['service'][name] = new mod(this, that.app);
           });
           return loaded.service;
         }
@@ -66,7 +72,6 @@ export class Loader {
   }
 
   loadRouter() {
-    this.loadController();
     const mod = require(__dirname + '/router.js');
     const routers = mod(this.controller);
 
@@ -76,10 +81,24 @@ export class Loader {
       (<any>this.router)[method](path, async (ctx: BaseContext) => {
         const _class = routers[route].type;
         const handler = routers[route].methodName;
-        const instance = new _class(ctx);
+        const instance = new _class(ctx, this.app);
         instance[handler]();
       })
     })
     return this.router.routes();
   }
+
+  loadConfig() {
+    const pubConfig = require(__dirname + '/config/config.pub.js');
+    const envConfig = require(__dirname + 
+      (process.env.NODE_ENV === 'production' ? '/config/config.pro.js':'/config/config.dev.js')
+    );
+    const config = Object.assign({}, pubConfig, envConfig);
+    Object.defineProperty(this.app, 'config', {
+      get: () => {
+        return config;
+      }
+    });
+  }
+
 }

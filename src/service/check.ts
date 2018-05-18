@@ -1,15 +1,8 @@
-import { BaseContext } from 'koa';
+import {Service} from '../core/service';
 
-class Service {
-  ctx: BaseContext;
-  constructor(ctx: BaseContext) {
-    this.ctx = ctx
-  }
-}
 
 class check extends Service {
   index() {
-    console.log(this.ctx.service);
     return this.ctx.serviceNum || 1;
   }
 }

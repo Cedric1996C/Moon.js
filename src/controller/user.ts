@@ -1,8 +1,7 @@
-import { Controller } from './base';
+import { Controller } from '../core/controller';
 
 export default class User extends Controller {
   async user() {
-    console.log("user");
     this.ctx.body = this.ctx.service.check.index();
   }
 

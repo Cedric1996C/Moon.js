@@ -14,7 +14,7 @@ const app = new Koa;
 
 const loader = new Loader(app);
 
-app.use(loader.loadRouter());
+app.use(loader.loadFlow());
 
 
 app.listen(3000, '127.0.0.1', () => {
