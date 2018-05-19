@@ -8,7 +8,7 @@
     "start": "tsc && NODE_ENV=development node ./dist/app.js ",
     "dev": "./node_modules/nodemon/bin/nodemon.js"
   },
-  "author": "",
+  "author": "robottdog.c",
   "license": "MIT",
   "dependencies": {
     "@types/koa": "^2.0.45",
