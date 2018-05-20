@@ -52,9 +52,6 @@ export class Loader {
   }
 
   loadRouter() {
-    // const mod = require(__dirname + '/router.js');
-    // const routers = mod(this.controller);
-
     const routes = Decorator.getRoutes();
     Object.keys(routes).forEach((route) => {
       routes[route].forEach((deco) => {
@@ -68,11 +65,11 @@ export class Loader {
   }
 
   loadConfig() {
-    const pubConfig = require(__dirname + '/config/config.pub.js');
+    const defConfig = require(__dirname + '/config/config.default.js');
     const envConfig = require(__dirname + 
-      (process.env.NODE_ENV === 'production' ? '/config/config.pro.js':'/config/config.dev.js')
+      (process.env.NODE_ENV === 'production' ? '/config/config.default.js':'/config/config.dev.js')
     );
-    const config = Object.assign({}, pubConfig, envConfig);
+    const config = Object.assign({}, defConfig, envConfig);
     Object.defineProperty(this.app, 'config', {
       get: () => {
         return config;
