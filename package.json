@@ -1,6 +1,6 @@
 {
-  "name": "enterprise-ts-koa",
-  "version": "1.0.0",
+  "name": "calabashjs",
+  "version": "1.0.1",
   "description": "0.0.1",
   "main": "index.js",
   "scripts": {
@@ -11,10 +11,13 @@
   "author": "robottdog.c",
   "license": "MIT",
   "dependencies": {
-    "@types/koa": "^2.0.45",
-    "@types/koa-router": "^7.0.28",
+    "@types/koa": "^2.0.43",
+    "@types/koa-bodyparser": "^4.2.0",
+    "@types/koa-router": "^7.0.27",
+    "@types/request": "^2.47.0",
     "koa": "^2.5.1",
     "koa-router": "^7.4.0",
-    "nodemon": "^1.17.4"
+    "nodemon": "^1.17.4",
+    "request": "^2.87.0"
   }
 }

@@ -1,7 +1,9 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import Router from 'koa-router';
+import logger from './logger';
 import { BaseContext } from 'koa';
-import  Decorator  from './decorator/decorator';
+import { deco } from './decorator';
+import { Calabash } from './calabash';
 
 export class Loader {
   router: Router = new Router;
@@ -52,7 +54,7 @@ export class Loader {
   }
 
   loadRouter() {
-    const routes = Decorator.getRoutes();
+    const routes = decorator.getRoutes();
     Object.keys(routes).forEach((route) => {
       routes[route].forEach((deco) => {
         (<any>this.router)[deco.method](route, async (ctx: BaseContext) => {
