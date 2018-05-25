@@ -34,7 +34,7 @@ export class Service extends Application.Calabash.Service {
   app: Calabash;
 }
 
-export class Cluster extends CalabashCluster{
+export class Cluster extends Application.Calabash.Cluster{
 
 }
 

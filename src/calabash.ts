@@ -3,6 +3,7 @@ import { Loader } from './loader';
 // import logger from './logger';
 import { Controller } from './core/controller';
 import { Service } from './core/service';
+import  Cluster  from './cluster';
 import * as req from 'request';
 import { deco, decorator } from './decorator';
 
@@ -19,6 +20,7 @@ export class Calabash extends Koa {
   static Controller: typeof Controller = Controller;
   static Service: typeof Service = Service;
   static decorator: decorator = deco;
+  static Cluster: typeof Cluster = Cluster;
   
   config: any = {};
 
