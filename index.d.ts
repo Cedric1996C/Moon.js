@@ -1,7 +1,8 @@
 /// <reference types="node" />
 import * as Application from './src/calabash'
 import { BaseContext, Request, Response } from 'koa';
-import { deco, decorator } from './src/decorator';
+import { decorator } from './src/decorator';
+import CalabashCluster from './src/cluster';
 
 interface FService { }
 interface FController { }
@@ -17,7 +18,6 @@ declare module "koa" {
 
 
 export class Calabash extends Application.Calabash {
-
   controller: FController
   config: FConfig;
 }
@@ -25,19 +25,19 @@ export class Calabash extends Application.Calabash {
 
 
 export class Controller extends Application.Calabash.Controller {
-
   app: Calabash;
 }
 
 
 
 export class Service extends Application.Calabash.Service {
-
   app: Calabash;
 }
 
+export class Cluster extends CalabashCluster{
 
-export const decorator: decorator;
+}
 
+export const Decorator: decorator;
 
-export as namespace Calabash
+export as namespace Calabash;
