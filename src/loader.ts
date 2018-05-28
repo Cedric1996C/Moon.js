@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import Router from 'koa-router';
 import logger from './logger';
 import { BaseContext } from 'koa';
+<<<<<<< HEAD
 import { deco } from './decorator';
 import { Calabash } from './calabash';
 
@@ -36,6 +37,9 @@ function removeString(source: string, str: string): StringSub {
     isFound: false
   };
 }
+=======
+import  Decorator  from './decorator/decorator';
+>>>>>>> 4e9e610046eab3694707f161ddfae8ad3a008b53
 
 export class Loader {
   private router: any = new Router;
@@ -102,6 +106,7 @@ export class Loader {
         if (!(<any>this)[HASLOADED]) {
           (<any>this)[HASLOADED] = {};
         }
+<<<<<<< HEAD
         const loaded = (<any>this)[HASLOADED];
         if (!loaded[property]) {
           loaded[property] = {};
@@ -131,6 +136,43 @@ export class Loader {
             this.app.use(mod.module());
           }
         }
+=======
+        const loaded = (<any>this)['cache'];
+
+        // If some services failed to be loaded ? 
+        if (!loaded['service']) {
+          loaded['service'] = {};
+          service.forEach((d) => {
+            const name = d.split('.')[0];
+            const mod = require(__dirname + '/service/' + d);
+            loaded['service'][name] = new mod(this, that.app);
+          });
+          return loaded.service;
+        }
+        return loaded.service;
+      }
+    });
+  }
+
+  loadController(){
+    const dirs = fs.readdirSync(__dirname + '/controller');
+    dirs.forEach((filename) => {
+      require(__dirname + '/controller/' + filename).default;
+    })
+  }
+
+  loadRouter() {
+    // const mod = require(__dirname + '/router.js');
+    // const routers = mod(this.controller);
+
+    const routes = Decorator.getRoutes();
+    Object.keys(routes).forEach((route) => {
+      routes[route].forEach((deco) => {
+        (<any>this.router)[deco.method](route, async (ctx: BaseContext) => {
+          const instance = new deco.constructor(ctx, this.app);
+          await instance[deco.handler]();
+        })
+>>>>>>> 4e9e610046eab3694707f161ddfae8ad3a008b53
       })
     } catch (e) { }
   }
